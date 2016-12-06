@@ -94,6 +94,15 @@ void cetak_stok()
 }
 data_pesanan pesanan[MAX_ARRAY];
 
+void tampil(data_pelanggan customer[MAX_ARRAY])
+{
+   cout<<"NO PEMESANAN : "<<customer[pelanggan].no_pemesanan<<endl;
+   cout<<"Jumlah Pemesanan : "<<customer[pelanggan].jumlah_pesan<<endl;
+   cout<<"Jumlah ayam pertama : "<<customer[pelanggan].pesanan[0].jumlah_ayam<<endl;
+   cout<<"tekan sembarang untuk kembali.."; 
+   getch();       
+}
+
 int main(int argc, char *argv[])
 {
     do{
@@ -104,7 +113,7 @@ int main(int argc, char *argv[])
                pemesanan(customer);
                break;                       
           case 2:
-               
+               tampil(customer);
                break;
           case 3:
                cetak_stok();

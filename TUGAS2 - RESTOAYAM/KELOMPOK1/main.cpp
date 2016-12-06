@@ -80,6 +80,24 @@ void pemesanan(data_pelanggan customer[MAX_ARRAY])
      getch();   
 }
 
+void cetak_pesanan(data_pelanggan customer[MAX_ARRAY])
+{    
+    cout<<customer[pelanggan].jumlah_pesan;
+    system("cls");
+    cout<<"DETAIL PEMBELIAN RESTO"<<endl<<endl;
+    cout<<"Urutan Pembelian = "<<customer[pelanggan].no_pemesanan<<endl;
+    cout<<"-----------------------------------------------"<<endl;
+    cout<<"| No |    Jumlah Ayam    |    Jumlah Bebek    |"<<endl;
+    cout<<"-----------------------------------------------"<<endl;
+    for (i = 0; i <= customer[pelanggan].jumlah_pesan-1; i++) {
+      cout<<"| "<<i+1<<"  |       "<<customer[pelanggan].pesanan[i].jumlah_ayam<<"           |       "<<customer[pelanggan].pesanan[i].jumlah_bebek<<"            |"<<endl;
+    }
+    cout<<"-----------------------------------------------"<<endl;
+    cout<<"Tekan sembarang untuk kembali...";
+    getch();
+
+}
+
 void cetak_stok()
 {
     system("cls"); 
@@ -113,7 +131,7 @@ int main(int argc, char *argv[])
                pemesanan(customer);
                break;                       
           case 2:
-               tampil(customer);
+               cetak_pesanan(customer);
                break;
           case 3:
                cetak_stok();

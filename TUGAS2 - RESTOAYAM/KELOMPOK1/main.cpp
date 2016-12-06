@@ -14,6 +14,7 @@ int pesanan_bebek[MAX_ARRAY];
 
 void cetak_menu();
 int pilih_menu();
+int menu; 
 
 void pemesanan(int *costumer,int pesanan_ayam[MAX_ARRAY],int pesanan_bebek[MAX_ARRAY])
 {
@@ -32,7 +33,8 @@ int main(int argc, char *argv[])
                
                break;
           case 3:
-                    
+               
+               break;       
        }
     } while(menu!=4);    
     

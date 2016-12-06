@@ -24,6 +24,13 @@ typedef struct
    int jumlah_bebek;
 }data_pesanan; 
 
+typedef struct
+{
+   int no_pemesanan;
+   int jumlah_pesan; 
+   data_pesanan pesanan[MAX_ARRAY];             
+}data_pelanggan; 
+
 void gotoxy(int x, int y){
     COORD coord;
     coord.X = x;
@@ -31,28 +38,33 @@ void gotoxy(int x, int y){
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
-void pemesanan(int *pelanggan,int *jumlah_pesan,data_pesanan pesanan[MAX_ARRAY])
+data_pelanggan customer[MAX_ARRAY];
+
+void pemesanan(data_pelanggan customer[MAX_ARRAY])
 {
      system("cls");
-     *pelanggan+=1;     
+     pelanggan+=1;
+     customer[pelanggan].no_pemesanan=pelanggan; 
+         
      bool input=false;
      //gotoxy(5,9); cout<<"Selamat datang!!";
-     cout<<"Pelanggan no : "<<*pelanggan<<endl;
+     cout<<"Pelanggan no : "<<pelanggan<<endl;
      cout<<"Masukkan jumlah pemesanan : ";
-     cin>>*jumlah_pesan;
-     for(i=0;i<*jumlah_pesan;i++)
+     cin>>customer[pelanggan].jumlah_pesan;
+     
+     for(i=0;i<customer[pelanggan].jumlah_pesan;i++)
      {
         do{                                              
             cout<<"Banyak ayam-"<<i+1<<" : "; 
-            cin>>pesanan[i].jumlah_ayam; 
-            if(stok_ayam<pesanan[i].jumlah_ayam) {
+            cin>>customer[pelanggan].pesanan[i].jumlah_ayam; 
+            if(stok_ayam<customer[pelanggan].pesanan[i].jumlah_ayam) {
                cout<<"Mohon maaf stok ayam hanya tinggal : "<<stok_ayam<<"..."<<endl;
                getch();
                system("cls");
             } else {
               cout<<"Banyak bebek-"<<i+1<<" : "; 
-              cin>>pesanan[i].jumlah_bebek;
-              if(stok_bebek<pesanan[i].jumlah_bebek){
+              cin>>customer[pelanggan].pesanan[i].jumlah_bebek;
+              if(stok_bebek<customer[pelanggan].pesanan[i].jumlah_bebek){
                  cout<<"Mohon maaf stok ayam hanya tinggal : "<<stok_ayam<<"..."<<endl;                                    
                  getch();
                  system("cls");
@@ -61,8 +73,8 @@ void pemesanan(int *pelanggan,int *jumlah_pesan,data_pesanan pesanan[MAX_ARRAY])
               }
             }
         }while(input==false); 
-        stok_ayam -= pesanan[i].jumlah_ayam;                 
-        stok_bebek -= pesanan[i].jumlah_bebek;
+        stok_ayam -= customer[pelanggan].pesanan[i].jumlah_ayam;                 
+        stok_bebek -= customer[pelanggan].pesanan[i].jumlah_bebek;
      }  
      cout<<"Pesanan anda telah disimpan tekan semabarang untuk kembali..";
      getch();   
@@ -89,7 +101,7 @@ int main(int argc, char *argv[])
        menu = pilih_menu();
        switch(menu) {
           case 1:
-               pemesanan(&pelanggan,&jumlah_pesan,pesanan);
+               pemesanan(customer);
                break;                       
           case 2:
                

@@ -164,7 +164,44 @@ void tambah_buku()
 }
 void edit_buku()
 {
-    cout<<"PROCEDURE EDIT BUKU ";
+    int dataCari, indeks_buku;
+
+    system("cls");
+    cout<<"EDIT BUKU"<<endl;
+    cout<<"========="<<endl;
+
+    do {
+        cout<<"Masukkan kode buku = ";
+        cin>>dataCari;
+        
+        indeks_buku = cariBukuByKode(dataCari);
+        if (indeks_buku == -1) {
+            cout<<"Buku yang diminta tidak ditemukan!"<<endl;
+        }
+    while (indeks_buku == -1);
+    
+    cout<<endl;
+    cout<<"Detail buku"<<endl;
+    cout<<"==========="<<endl;
+    cout<<"Judul : "<<buku[indeks_buku].judul<<endl;
+    cout<<"Kode : "<<buku[indeks_buku].kode<<endl;
+    cout<<"Penerbit : "<<buku[indeks_buku].penerbit<<endl;
+    cout<<"Pengarang : "<<buku[indeks_buku].pengarang<<endl;
+    cout<<"Stok : "<<buku[indeks_buku].stok<<endl;
+    cout<<endl;
+
+    cout<<"Formulir Edit"<<endl;
+    cout<<"Judul = ";
+    cin>>buku[indeks_buku].judul;
+    cout<<"Kode = ";
+    cin>>buku[indeks_buku].kode;
+    cout<<"Penerbit = ";
+    cin>>buku[indeks_buku].penerbit;
+    cout<<"Pengarang = ";
+    cin>>buku[indeks_buku].pengarang;
+    cout<<"Stok = ";
+    cin>>buku[indeks_buku].stok;
+
     getch(); 
 }
 void hapus_buku()

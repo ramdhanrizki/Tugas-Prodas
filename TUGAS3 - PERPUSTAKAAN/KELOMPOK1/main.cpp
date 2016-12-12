@@ -127,6 +127,23 @@ void cetak_buku()
 
     getch(); 
 }
+
+int cariBukuByKode(int kode) {
+    int i;
+
+    for (i = 0; i <= ptrBuku; i++) {
+        if (buku[i].kode == kode) {
+            break;
+        }
+    }
+    
+    if (buku[i].kode == kode) {
+        return i;
+    } else {
+        return -1;
+    }
+}
+
 void cari_buku()
 {
     cout<<"PROCEDURE CARI BUKU ";

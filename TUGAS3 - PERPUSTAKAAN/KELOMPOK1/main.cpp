@@ -190,17 +190,18 @@ void tambah_buku()
     cout<<endl;
 
     for (i = 0; i < jumlah_buku; i++) {
-        cout<<"["<<i+1<<"]."<<endl;
+        ptrBuku = ptrBuku + 1;
+        cout<<"["<<i<<"]."<<endl;
         cout<<"Judul = ";
-        cin<<buku[i].judul;
+        cin<<buku[ptrBuku].judul;
         cout<<"Kode = ";
-        cin<<buku[i].kode;
+        cin<<buku[ptrBuku].kode;
         cout<<"Penerbit = ";
-        cin<<buku[i].penerbit;
+        cin<<buku[ptrBuku].penerbit;
         cout<<"Pengarang = ";
-        cin<<buku[i].pengarang;
+        cin<<buku[ptrBuku].pengarang;
         cout<<"Stok = ";
-        cin<<buku[i].stok;
+        cin<<buku[ptrBuku].stok;
         cout<<endl;
     }
 

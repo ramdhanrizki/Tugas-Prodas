@@ -109,6 +109,8 @@ void cetak_menu()
 }
 void cetak_buku()
 {
+    int i;
+
     system("cls");
     cout<<"CETAK BUKU";
     cout<<"==========";
@@ -132,7 +134,32 @@ void cari_buku()
 }
 void tambah_buku()
 {
-    cout<<"PROCEDURE TAMBAH BUKU ";
+    int i;
+    int jumlah_buku;
+
+    system("cls");
+    cout<<"TAMBAH BUKU";
+    cout<<"===========";
+
+    cout<<"Jumlah buku yang ingin ditambah = ";
+    cin>>jumlah_buku;
+    cout<<endl;
+
+    for (i = 0; i < jumlah_buku; i++) {
+        cout<<"["<<i+1<<"]."<<endl;
+        cout<<"Judul = ";
+        cin<<buku[i].judul;
+        cout<<"Kode = ";
+        cin<<buku[i].kode;
+        cout<<"Penerbit = ";
+        cin<<buku[i].penerbit;
+        cout<<"Pengarang = ";
+        cin<<buku[i].pengarang;
+        cout<<"Stok = ";
+        cin<<buku[i].stok;
+        cout<<endl;
+    }
+
     getch(); 
 }
 void edit_buku()

@@ -17,17 +17,17 @@ typedef struct
 
 typedef struct
 {
-   char kode[6];
+   int kode;
    char nama_peminjam[61];
    char alamat_peminjam[81];
-   char kode_buku[6];
+   int kode_buku;
    char judul_buku[81];
    tanggal tgl_pinjam;
 } dataPeminjaman;
 
 typedef struct
 {
-   char kode[6];
+   int kode;
    char judul[81];
    char pengarang[61];
    char penerbit[61];
@@ -36,9 +36,9 @@ typedef struct
 
 typedef struct
 {
-    char kode_peminjaman[6];
+    int kode_peminjaman;
     char nama_peminjam[61];
-    char kode_buku[6];
+    int kode_buku;
     char judul_buku[81];
     tanggal tgl_kembali;
     int lama;
@@ -191,7 +191,7 @@ void tambah_buku()
 
     for (i = 0; i < jumlah_buku; i++) {
         ptrBuku = ptrBuku + 1;
-        cout<<"["<<i<<"]."<<endl;
+        cout<<"["<<i+1<<"]."<<endl;
         cout<<"Judul = ";
         cin<<buku[ptrBuku].judul;
         cout<<"Kode = ";

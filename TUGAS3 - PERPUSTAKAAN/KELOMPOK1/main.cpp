@@ -67,7 +67,18 @@ void tambah_buku();
 void edit_buku();
 void hapus_buku();
 
-//program utama
+//fungsi menghitung selisih hari dari 2 tanggal
+int selisih_hari(tanggal tanggal1,tanggal tanggal2)
+{
+    //kurangi
+    int hari=0; 
+    hari += tanggal2.tanggal-tanggal1.tanggal;
+    hari += (tanggal2.bulan-tanggal1.bulan) * 30;
+    hari += (tanggal2.tahun-tanggal1.tahun) * 365; 
+    return hari;
+}
+
+//program utama 
 int main(int argc, char *argv[])
 {
     int menu;
@@ -95,6 +106,9 @@ int main(int argc, char *argv[])
     } while(menu!=4);
     return EXIT_SUCCESS;
 }
+
+//end of main program 
+
 
 void cetak_menu()
 {
@@ -353,8 +367,7 @@ void peminjaman_buku()
 }
 void menu_peminjaman()
 {
-
-    int menu;
+    int menu;  
     do{
         system("cls");
         cout<<"SISTEM INFORMASI PERPUSTAKAAN"<<endl;

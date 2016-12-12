@@ -146,7 +146,31 @@ int cariBukuByKode(int kode) {
 
 void cari_buku()
 {
-    cout<<"PROCEDURE CARI BUKU ";
+    int indeks_buku, kode_buku;
+
+    system("cls");
+    cout<<"CARI BUKU"<<endl;
+    cout<<"========="<<endl;
+
+    do {
+        cout<<"Masukkan kode buku = ";
+        cin>>kode_buku;
+        
+        indeks_buku = cariBukuByKode(kode_buku);
+        if (indeks_buku == -1) {
+            cout<<"Buku yang diminta tidak ditemukan!"<<endl;
+        }
+    while (indeks_buku == -1);
+
+    cout<<endl;
+    cout<<"Detail buku"<<endl;
+    cout<<"==========="<<endl;
+    cout<<"Judul : "<<buku[indeks_buku].judul<<endl;
+    cout<<"Kode : "<<buku[indeks_buku].kode<<endl;
+    cout<<"Penerbit : "<<buku[indeks_buku].penerbit<<endl;
+    cout<<"Pengarang : "<<buku[indeks_buku].pengarang<<endl;
+    cout<<"Stok : "<<buku[indeks_buku].stok<<endl;
+
     getch(); 
 }
 void tambah_buku()

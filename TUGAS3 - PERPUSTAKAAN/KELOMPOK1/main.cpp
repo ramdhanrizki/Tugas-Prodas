@@ -3,24 +3,27 @@
 #include <conio.h>
 
 using namespace std;
-const int max_data=100;
-//Record
+
+const int MAX_DATA = 100;
+const int DENDA = 10000; // denda bisa diubah terserah kesepakatan
+
+// Deklarasi struct
 typedef struct 
 {
-   int tanggal; 
-   int bulan; 
-   int tahun;             
+   int tgl; 
+   int bln; 
+   int thn;             
 } tanggal; 
 
 typedef struct
 {
-   char kode_peminjaman[6]; 
+   char kode[6]; 
    char nama_peminjam[61]; 
    char alamat_peminjam[81];
    char kode_buku[6];
    char judul_buku[81];
-   tanggal tanggal_pinjam; 
-} data_peminjaman; 
+   tanggal tgl_pinjam; 
+} dataPeminjaman; 
 
 typedef struct
 {
@@ -29,7 +32,7 @@ typedef struct
    char pengarang[61];
    char penerbit[61];
    int stok;            
-} data_buku; 
+} dataBuku; 
 
 typedef struct
 {
@@ -37,16 +40,21 @@ typedef struct
     char nama_peminjam[61];
     char kode_buku[6];
     char judul_buku[81];
-    tanggal tanggal_kembali; 
+    tanggal tgl_kembali; 
     int lama; 
     int biaya_pinjam;   
-} data_pengembalian; 
-//Akhir dari record 
-data_buku buku[max_data];
-data_peminjaman peminjaman[max_data];
-data_pengembalian pengembalian[max_data];
+} dataPengembalian; 
 
-//Array of Record 
+// variabel Global
+dataBuku            buku[MAX_DATA];
+dataPeminjaman      peminjaman[MAX_DATA];
+dataPengembalian    pengembalian[MAX_DATA];
+// pointer penunjuk indeks terakhir dari array
+int                 ptrBuku;
+int                 ptrPeminjaman;
+int                 ptrPengembalian;
+
+
 
 //Inisialisasi Procedure
 void cetak_menu();
@@ -63,10 +71,12 @@ void hapus_buku();
 int main(int argc, char *argv[])
 {
     int menu; 
-    do{
+
+    do {
         cetak_menu(); 
         cout<<"Menu yang dipilih  : ";
         cin>>menu; 
+
         switch(menu)
         {
             case 1: 
@@ -99,7 +109,20 @@ void cetak_menu()
 }
 void cetak_buku()
 {
-    cout<<"PROCEDURE CETAK BUKU ";
+    system("cls");
+    cout<<"CETAK BUKU";
+    cout<<"==========";
+
+    for (i = 0; i <= ptrBuku; i++) {
+       cout<<"["<<i+1<<"]."<<endl; 
+       cout<<"Judul     = "<<buku[i].judul<<endl;
+       cout<<"Kode      = "<<buku[i].kode<<endl;
+       cout<<"Penerbit  = "<<buku[i].penerbit<<endl;
+       cout<<"Pengarang = "<<buku[i].pengarang<<endl;
+       cout<<"Stok      = "<<buku[i].stok<<endl;
+       cout<<endl;
+    }
+
     getch(); 
 }
 void cari_buku()
@@ -126,7 +149,8 @@ void hapus_buku()
 void menu_buku()
 {
     int menu;  
-    do{
+
+    do {
         system("cls"); 
         cout<<"SISTEM INFORMASI PERPUSTAKAAN"<<endl; 
         cout<<"         UNIKOM BANDUNG      "<<endl;  
@@ -140,7 +164,8 @@ void menu_buku()
         cout<<"6. Kembali"<<endl; 
         cout<<"Menu yang dipilih : "; 
         cin>>menu;         
-        switch(menu){
+
+        switch(menu) {
              case 1:
                   cetak_buku();
                   break;           

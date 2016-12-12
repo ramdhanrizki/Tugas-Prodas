@@ -181,7 +181,7 @@ void tambah_buku()
 }
 void edit_buku()
 {
-    int dataCari, indeks_buku;
+    int kode_buku, indeks_buku;
 
     system("cls");
     cout<<"EDIT BUKU"<<endl;
@@ -189,9 +189,9 @@ void edit_buku()
 
     do {
         cout<<"Masukkan kode buku = ";
-        cin>>dataCari;
+        cin>>kode_buku;
         
-        indeks_buku = cariBukuByKode(dataCari);
+        indeks_buku = cariBukuByKode(kode_buku);
         if (indeks_buku == -1) {
             cout<<"Buku yang diminta tidak ditemukan!"<<endl;
         }
@@ -223,7 +223,45 @@ void edit_buku()
 }
 void hapus_buku()
 {
-    cout<<"PROCEDURE HAPUS BUKU ";
+    int kode_buku, i;
+
+    system("cls");
+    cout<<"HAPUS BUKU"<<endl;
+    cout<<"=========="<<endl;
+
+    do {
+        cout<<"Masukkan kode buku = ";
+        cin>>kode_buku;
+        
+        indeks_buku = cariBukuByKode(kode_buku);
+        if (indeks_buku == -1) {
+            cout<<"Buku yang diminta tidak ditemukan!"<<endl;
+        }
+    while (indeks_buku == -1);
+
+    /* untuk melakukan penghapusan, maka perlu pemindahan data
+     * yang setelah indeks yang akan dihapus. Sehingga
+     * tempat data yang dihapus tidak kosong didalam array
+     */
+
+    // lakukan pengulangan sebanyak ptrBuku - indeks_buku
+    for (i = 0; i < ptrBuku - indeks_buku) {
+        buku[indeks_buku + i].judul = buku[indeks_buku + 1+i].judul;  
+        buku[indeks_buku + i].kode = buku[indeks_buku + 1+i].kode;  
+        buku[indeks_buku + i].penerbit = buku[indeks_buku + 1+i].penerbit;  
+        buku[indeks_buku + i].pengarang = buku[indeks_buku + 1+i].pengarang;  
+        buku[indeks_buku + i].stok = buku[indeks_buku + 1+i].stok;  
+    }
+
+    // mengosongkan indeks terakhir
+    buku[ptrBuku].judul = "";
+    buku[ptrBuku].kode = 0;
+    buku[ptrBuku].penerbit = "";
+    buku[ptrBuku].pengarang = "";
+    buku[ptrBuku].stok = 0;
+
+    ptrBuku = ptrBuku - 1;
+
     getch(); 
 }
 

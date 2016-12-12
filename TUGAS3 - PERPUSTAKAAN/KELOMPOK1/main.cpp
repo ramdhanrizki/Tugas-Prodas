@@ -50,9 +50,9 @@ dataBuku            buku[MAX_DATA];
 dataPeminjaman      peminjaman[MAX_DATA];
 dataPengembalian    pengembalian[MAX_DATA];
 // pointer penunjuk indeks terakhir dari array
-int                 ptrBuku;
-int                 ptrPeminjaman;
-int                 ptrPengembalian;
+int                 ptrBuku = -1;
+int                 ptrPeminjaman = -1;
+int                 ptrPengembalian = -1;
 
 
 
@@ -116,14 +116,18 @@ void cetak_buku()
     cout<<"CETAK BUKU"<<endl;
     cout<<"=========="<<endl;
 
-    for (i = 0; i <= ptrBuku; i++) {
-       cout<<"["<<i+1<<"]."<<endl;
-       cout<<"Judul     = "<<buku[i].judul<<endl;
-       cout<<"Kode      = "<<buku[i].kode<<endl;
-       cout<<"Penerbit  = "<<buku[i].penerbit<<endl;
-       cout<<"Pengarang = "<<buku[i].pengarang<<endl;
-       cout<<"Stok      = "<<buku[i].stok<<endl;
-       cout<<endl;
+    if (ptrBuku == -1) {
+        cout<<"Tidak ada data!"<<endl;
+    } else {
+        for (i = 0; i <= ptrBuku; i++) {
+           cout<<"["<<i+1<<"]."<<endl;
+           cout<<"Judul     = "<<buku[i].judul<<endl;
+           cout<<"Kode      = "<<buku[i].kode<<endl;
+           cout<<"Penerbit  = "<<buku[i].penerbit<<endl;
+           cout<<"Pengarang = "<<buku[i].pengarang<<endl;
+           cout<<"Stok      = "<<buku[i].stok<<endl;
+           cout<<endl;
+        }
     }
 
     getch();
@@ -162,7 +166,7 @@ void cari_buku()
         if (indeks_buku == -1) {
             cout<<"Buku yang diminta tidak ditemukan!"<<endl;
         }
-    while (indeks_buku == -1);
+    } while (indeks_buku == -1);
 
     cout<<endl;
     cout<<"Detail buku"<<endl;
@@ -193,15 +197,15 @@ void tambah_buku()
         ptrBuku = ptrBuku + 1;
         cout<<"["<<i+1<<"]."<<endl;
         cout<<"Judul = ";
-        cin<<buku[ptrBuku].judul;
+        fflush(stdin); cin.get(buku[ptrBuku].judul, 80);
         cout<<"Kode = ";
-        cin<<buku[ptrBuku].kode;
+        cin>>buku[ptrBuku].kode;
         cout<<"Penerbit = ";
-        cin<<buku[ptrBuku].penerbit;
+        fflush(stdin); cin.get(buku[ptrBuku].penerbit, 60);
         cout<<"Pengarang = ";
-        cin<<buku[ptrBuku].pengarang;
+        fflush(stdin); cin.get(buku[ptrBuku].pengarang, 60);
         cout<<"Stok = ";
-        cin<<buku[ptrBuku].stok;
+        cin>>buku[ptrBuku].stok;
         cout<<endl;
     }
 
@@ -224,7 +228,7 @@ void edit_buku()
         if (indeks_buku == -1) {
             cout<<"Buku yang diminta tidak ditemukan!"<<endl;
         }
-    while (indeks_buku == -1);
+    } while (indeks_buku == -1);
 
     cout<<endl;
     cout<<"Detail buku"<<endl;
@@ -238,13 +242,13 @@ void edit_buku()
 
     cout<<"Formulir Edit"<<endl;
     cout<<"Judul = ";
-    cin>>buku[indeks_buku].judul;
+    fflush(stdin); cin.get(buku[indeks_buku].judul, 80);
     cout<<"Kode = ";
     cin>>buku[indeks_buku].kode;
     cout<<"Penerbit = ";
-    cin>>buku[indeks_buku].penerbit;
+    fflush(stdin); cin.get(buku[indeks_buku].penerbit, 60);
     cout<<"Pengarang = ";
-    cin>>buku[indeks_buku].pengarang;
+    fflush(stdin); cin.get(buku[indeks_buku].pengarang, 60);
     cout<<"Stok = ";
     cin>>buku[indeks_buku].stok;
 
@@ -253,7 +257,7 @@ void edit_buku()
 
 void hapus_buku()
 {
-    int kode_buku, i;
+    int kode_buku, i, indeks_buku;
 
     system("cls");
     cout<<"HAPUS BUKU"<<endl;
@@ -267,7 +271,7 @@ void hapus_buku()
         if (indeks_buku == -1) {
             cout<<"Buku yang diminta tidak ditemukan!"<<endl;
         }
-    while (indeks_buku == -1);
+    } while (indeks_buku == -1);
 
     /* untuk melakukan penghapusan, maka perlu pemindahan data
      * yang setelah indeks yang akan dihapus. Sehingga
@@ -275,19 +279,19 @@ void hapus_buku()
      */
 
     // lakukan pengulangan sebanyak ptrBuku - indeks_buku
-    for (i = 0; i < ptrBuku - indeks_buku) {
-        buku[indeks_buku + i].judul = buku[indeks_buku + 1+i].judul;
+    for (i = 0; i < ptrBuku - indeks_buku; i++) {
+        strcpy(buku[indeks_buku + i].judul, buku[indeks_buku + 1+i].judul);
         buku[indeks_buku + i].kode = buku[indeks_buku + 1+i].kode;
-        buku[indeks_buku + i].penerbit = buku[indeks_buku + 1+i].penerbit;
-        buku[indeks_buku + i].pengarang = buku[indeks_buku + 1+i].pengarang;
+        strcpy(buku[indeks_buku + i].penerbit, buku[indeks_buku + 1+i].penerbit);
+        strcpy(buku[indeks_buku + i].pengarang, buku[indeks_buku + 1+i].pengarang);
         buku[indeks_buku + i].stok = buku[indeks_buku + 1+i].stok;
     }
 
     // mengosongkan indeks terakhir
-    buku[ptrBuku].judul = "";
+    strcpy(buku[ptrBuku].judul, "");
     buku[ptrBuku].kode = 0;
-    buku[ptrBuku].penerbit = "";
-    buku[ptrBuku].pengarang = "";
+    strcpy(buku[ptrBuku].penerbit, "");
+    strcpy(buku[ptrBuku].pengarang, "");
     buku[ptrBuku].stok = 0;
 
     ptrBuku = ptrBuku - 1;

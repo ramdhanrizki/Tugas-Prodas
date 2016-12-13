@@ -1,18 +1,21 @@
 #include <cstdlib>
 #include <iostream>
 #include <conio.h>
+#include <ctime>
 
 using namespace std;
 
 const int MAX_DATA = 100;
 const int DENDA = 10000; // denda bisa diubah terserah kesepakatan
+int i;
+int jumlah_buku;
 
 // Deklarasi struct
 typedef struct
 {
-   int tgl;
-   int bln;
-   int thn;
+   int tanggal;
+   int bulan;
+   int tahun;
 } tanggal;
 
 typedef struct
@@ -124,8 +127,6 @@ void cetak_menu()
 
 void cetak_buku()
 {
-    int i;
-
     system("cls");
     cout<<"CETAK BUKU"<<endl;
     cout<<"=========="<<endl;
@@ -197,7 +198,6 @@ void cari_buku()
 void tambah_buku()
 {
     int i;
-    int jumlah_buku;
 
     system("cls");
     cout<<"TAMBAH BUKU"<<endl;
@@ -357,12 +357,91 @@ void menu_buku()
 */
 void cetak_peminjaman()
 {
-   cout<<"PROCEDURE CETAK PEMINJAMAN  ";
+    system("cls");
+    cout<<"CETAK DATA PEMINJAMAN"<<endl;
+    cout<<"=========="<<endl;
+
+    if (ptrPeminjaman == -1) {
+        cout<<"Tidak ada data!"<<endl;
+    } else {
+        for (i = 0; i <= ptrPeminjaman; i++) {
+           cout<<"["<<i+1<<"]."<<endl;
+           cout<<"Nama Peminjam     = "<<peminjaman[i].nama_peminjam<<endl;
+           cout<<"Alamat            = "<<peminjaman[i].alamat_peminjam<<endl;
+           cout<<"Kode Buku         = "<<peminjaman[i].kode_buku<<endl;
+           cout<<"Judul Buku        = "<<peminjaman[i].judul_buku<<endl;
+           cout<<"Waktu Pinjam      = "<<peminjaman[i].tgl_pinjam.tanggal<<" - "<<peminjaman[i].tgl_pinjam.bulan<<" - "<<peminjaman[i].tgl_pinjam.tahun<<endl;
+           cout<<endl;
+        }
+    }
    getch();
 }
 void peminjaman_buku()
-{
-   cout<<"PROCEDURE PEMINJAMAN BUKU  ";
+{    
+   int kodeCari;
+   bool ketemu;
+   i = 0;
+   int jml_buku_pinjam;
+   time_t now = time(0);
+   tm *ltm = localtime(&now);
+   
+   cout<<endl;
+   cout<<"Masukkan Kode Buku yang akan anda pinjam : "; 
+   cin>>kodeCari; 
+   while(i<jumlah_buku && ketemu==false)
+    {
+        if(kodeCari == buku[i].kode){
+           ketemu=true;
+        } else {
+          i++; 
+        }          
+    }
+    if(ketemu==true){
+       if(buku[i].stok == 0) {
+         cout<<endl;
+         cout<<"Maaf stok buku yang akan anda pinjam telah habis."<<endl;
+       }else{
+           system("cls");
+           cout<<"Detail Buku yang akan dipinjam"<<endl;
+           cout<<"==================================="<<endl;   
+           cout<<"Judul     = "<<buku[i].judul<<endl;
+           cout<<"Kode      = "<<buku[i].kode<<endl;
+           cout<<"Penerbit  = "<<buku[i].penerbit<<endl;
+           cout<<"Pengarang = "<<buku[i].pengarang<<endl;
+           cout<<"Stok = "<<buku[i].stok<<endl;
+           cout<<endl;
+           cout<<"Masukkan Jumlah Buku yang akan anda Pinjam : ";
+           cin>>jml_buku_pinjam;
+           cout<<endl;
+           while(buku[i].stok < jml_buku_pinjam){
+             cout<<"Maaf stok buku tidak cukup, silahkan masukan kembali jumlah buku yang akan dipinjam."<<endl;
+             getch();
+             cout<<endl;
+             cout<<"Masukkan Jumlah Buku yang akan anda Pinjam : ";
+             cin>>jml_buku_pinjam;
+             cout<<endl;
+           }
+           ptrPeminjaman += 1;
+           cout<<"Masukkan Nama Anda : ";
+           fflush(stdin); cin.get(peminjaman[ptrPeminjaman].nama_peminjam, 61);
+           cout<<endl;
+           cout<<"Masukkan Alamat Anda : ";
+           fflush(stdin); cin.get(peminjaman[ptrPeminjaman].alamat_peminjam, 81);
+           peminjaman[ptrPeminjaman].kode_buku = buku[i].kode;
+           strcpy(peminjaman[ptrPeminjaman].judul_buku,buku[i].judul);
+           peminjaman[ptrPeminjaman].tgl_pinjam.tanggal = ltm->tm_mday;
+           peminjaman[ptrPeminjaman].tgl_pinjam.bulan = 1 + ltm->tm_mon;
+           peminjaman[ptrPeminjaman].tgl_pinjam.tahun = 1900 + ltm->tm_year;
+           
+           buku[i].stok -= jml_buku_pinjam;
+           cout<<endl;
+           cout<<"Selamat, Buku berhasil dipinjam."<<endl;
+       }
+  
+    } else {
+       cout<<"Kode tidak ditemukan";
+    }       
+   
    getch();
 }
 void menu_peminjaman()

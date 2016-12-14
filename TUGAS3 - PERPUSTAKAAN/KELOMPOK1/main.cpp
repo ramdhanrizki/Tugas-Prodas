@@ -53,7 +53,6 @@ dataBuku            buku[MAX_DATA];
 dataPeminjaman      peminjaman[MAX_DATA];
 dataPengembalian    pengembalian[MAX_DATA];
 tanggal tgl_sekarang; 
-
 // pointer penunjuk indeks terakhir dari array
 int                 ptrBuku = -1;
 int                 ptrPeminjaman = -1;
@@ -71,7 +70,6 @@ void cari_buku();
 void tambah_buku();
 void edit_buku();
 void hapus_buku();
-
 
 //fungsi generate tanggal sekarang 
 tanggal generate_tanggal()
@@ -150,11 +148,13 @@ void cetak_buku()
     } else {
         for (i = 0; i <= ptrBuku; i++) {
            cout<<"["<<i+1<<"]."<<endl;
-           cout<<"Judul     = "<<buku[i].judul<<endl;
-           cout<<"Kode      = "<<buku[i].kode<<endl;
-           cout<<"Penerbit  = "<<buku[i].penerbit<<endl;
-           cout<<"Pengarang = "<<buku[i].pengarang<<endl;
-           cout<<"Stok      = "<<buku[i].stok<<endl;
+           cout<<"==========================================="<<endl;
+           cout<<"| Judul     = "<<buku[i].judul<<endl;
+           cout<<"| Kode      = "<<buku[i].kode<<endl;
+           cout<<"| Penerbit  = "<<buku[i].penerbit<<endl;
+           cout<<"| Pengarang = "<<buku[i].pengarang<<endl;
+           cout<<"| Stok      = "<<buku[i].stok<<endl;
+           cout<<"==========================================="<<endl;
            cout<<endl;
         }
     }
@@ -385,6 +385,7 @@ void cetak_peminjaman()
            cout<<"Kode Buku         = "<<peminjaman[i].kode_buku<<endl;
            cout<<"Judul Buku        = "<<peminjaman[i].judul_buku<<endl;
            cout<<"Waktu Pinjam      = "<<peminjaman[i].tgl_pinjam.tanggal<<" - "<<peminjaman[i].tgl_pinjam.bulan<<" - "<<peminjaman[i].tgl_pinjam.tahun<<endl;
+           cout<<"==================================================="<<endl;
            cout<<endl;
         }
     }
@@ -444,7 +445,6 @@ void peminjaman_buku()
            peminjaman[ptrPeminjaman].kode = ptrPeminjaman;
            peminjaman[ptrPeminjaman].kode_buku = buku[i].kode;
            strcpy(peminjaman[ptrPeminjaman].judul_buku,buku[i].judul);
-           
            peminjaman[ptrPeminjaman].tgl_pinjam.tanggal = ltm->tm_mday;
            peminjaman[ptrPeminjaman].tgl_pinjam.bulan = 1 + ltm->tm_mon;
            peminjaman[ptrPeminjaman].tgl_pinjam.tahun = 1900 + ltm->tm_year;
@@ -491,69 +491,57 @@ void menu_peminjaman()
 */
 void cetak_pengembalian()
 {
-   cout<<"PROCEDURE CETAK PENGEMBALIAN  ";
+   system("cls");
+   cout<<"DAFTAR BUKU YANG DIPINJAM";
+   cout<<endl;
+   for (i = 0; i <= ptrPeminjaman; i++) {
+      cout<<"["<<i+1<<"]."<<endl;
+      cout<<"==================================================="<<endl;
+      cout<<"Nama Peminjam     = "<<peminjaman[i].nama_peminjam<<endl;
+      cout<<"Alamat            = "<<peminjaman[i].alamat_peminjam<<endl;
+      cout<<"Kode Buku         = "<<peminjaman[i].kode_buku<<endl;
+      cout<<"Judul Buku        = "<<peminjaman[i].judul_buku<<endl;
+      cout<<"Waktu Pinjam      = "<<peminjaman[i].tgl_pinjam.tanggal<<" - "<<peminjaman[i].tgl_pinjam.bulan<<" - "<<peminjaman[i].tgl_pinjam.tahun<<endl;
+      cout<<"==================================================="<<endl;
+      cout<<endl;
+   }
+   
    getch();
 }
-
-int hitung_denda(tanggal tgl_pinjam)
-{
-   tgl_sekarang = generate_tanggal();
-   int selisih = selisih_hari(tgl_pinjam,tgl_sekarang);
-   if(selisih>3)
-     return selisih * DENDA; 
-   else 
-     return 0;   
-}
-
 void pengembalian_buku()
 {
-   int kodePinjam;  
-   int ketemu = false; 
-   int i=0;
-   char cek; 
-   tgl_sekarang = generate_tanggal();
-   cout<<"Masukkan kode peminjaman :  ";
-   cin>>kodePinjam; 
-   while(!ketemu && i<=ptrPeminjaman) {
-      if(kodePinjam==peminjaman[i].kode)
-         ketemu=true; 
-      else 
-         i++;              
+   int jml_buku_pinjam;
+   char cariNama[61];
+   bool ketemu = false;
+   i = 0;
+   char pilih;
+   
+   cout<<"Masukkan nama peminjam = ";
+   fflush(stdin); cin.get(cariNama, 60);
+   while(i<jumlah_buku && ketemu==false)
+   {
+        if(cariNama == peminjaman[i].nama_peminjam){
+           ketemu = true;
+        } else {
+          i++; 
+        }          
    }
-   if(ketemu){
-     cout<<"Data Peminjaman"<<endl; 
-     cout<<"========================"<<endl; 
-     cout<<"Kode Peminjam : "<<kodePinjam<<endl;
-     cout<<"Nama   : "<<peminjaman[i].nama_peminjam<<endl; 
-     cout<<"Alamat : "<<peminjaman[i].alamat_peminjam<<endl;
-     cout<<"Tanggal Pinjam : "<<peminjaman[i].tgl_pinjam.tanggal<<"/"<<peminjaman[i].tgl_pinjam.bulan<<"/"<<peminjaman[i].tgl_pinjam.tahun<<endl;
-     cout<<"Buku yang dipinjam : "<<peminjaman[i].judul_buku; 
-     cout<<"Tanggal Pengembalian : "<<tgl_sekarang.tanggal<<"/"<<tgl_sekarang.bulan<<"/"<<tgl_sekarang.tahun<<endl;
-     cout<<"Denda  : "<<hitung_denda(peminjaman[i].tgl_pinjam)<<endl; 
-     cout<<endl; 
-     cout<<"Apakah buku yang ingin dikembalikan sudah benar ? [y/t] : "; 
-     cin>>cek; 
-     if(cek=='y' || cek=='Y'){
-       ptrPengembalian++; 
-       pengembalian[ptrPengembalian].kode_peminjaman = peminjaman[i].kode; 
-       
-       strcpy(pengembalian[ptrPengembalian].nama_peminjam,peminjaman[i].nama_peminjam);
-       pengembalian[ptrPengembalian].kode_buku=peminjaman[i].kode_buku; 
-       strcpy(pengembalian[ptrPengembalian].judul_buku,peminjaman[i].judul_buku);       
-       pengembalian[ptrPengembalian].tgl_kembali = tgl_sekarang; 
-       pengembalian[ptrPengembalian].lama=selisih_hari(peminjaman[i].tgl_pinjam,tgl_sekarang); 
-       pengembalian[ptrPengembalian].biaya_pinjam = hitung_denda(peminjaman[i].tgl_pinjam);
-       cout<<endl; 
-       cout<<"Data sudah disimpan.. tekan sembarang untuk kembali.."; 
-       getch();
-     }else {
-       cout<<"Tekan sembarang untuk kembali..";
-       getch();
-     }
-   }else {
-     cout<<"Kode peminjaman tidak ditemukan.."<<endl;
-     
+   if(ketemu == true){
+        cout<<"Nama Peminjam     = "<<peminjaman[i].nama_peminjam<<endl;
+        cout<<"Alamat            = "<<peminjaman[i].alamat_peminjam<<endl;
+        cout<<"Kode Buku         = "<<peminjaman[i].kode_buku<<endl;
+        cout<<"Judul Buku        = "<<peminjaman[i].judul_buku<<endl;
+        cout<<"Waktu Pinjam      = "<<peminjaman[i].tgl_pinjam.tanggal<<" - "<<peminjaman[i].tgl_pinjam.bulan<<" - "<<peminjaman[i].tgl_pinjam.tahun<<endl;
+        cout<<"Apakah anda yakin ingin mengembalikan buku (y/n)?"; cin>>pilih;
+        cout<<endl;  
+        if((pilih == 'y') || (pilih == 'Y')){
+            buku[i].stok += jml_buku_pinjam;
+            cout<<"Pengembalian buku berhasil";          
+        } else if((pilih == 'n') || (pilih == 'N')){
+            cout<<"Jangan lupa kembalikan bukunya"<<endl;   
+        }       
    }
+   
    getch();
 }
 void menu_pengembalian()

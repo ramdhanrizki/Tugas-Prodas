@@ -396,72 +396,70 @@ void cetak_peminjaman()
 }
 void peminjaman_buku()
 {    
-   int kodeCari;
-   bool ketemu;
-   i = 0;
-   int jml_buku_pinjam;
-   time_t now = time(0);
-   tm *ltm = localtime(&now);
-   
-   cout<<endl;
-   cout<<"Masukkan Kode Buku yang akan anda pinjam : "; 
-   cin>>kodeCari; 
-   while(i<=ptrBuku && ketemu==false)
-   {
-        if(kodeCari == buku[i].kode){
-           ketemu=true;
-        } else {
-          i++; 
-        }          
-    }
-    if(ketemu==true){
-       if(buku[i].stok == 0) {
-         cout<<endl;
-         cout<<"Maaf stok buku yang akan anda pinjam telah habis."<<endl;
-       }else{
-           system("cls");
-           cout<<"Detail Buku yang akan dipinjam"<<endl;
-           cout<<"==================================="<<endl;   
-           cout<<"Judul     = "<<buku[i].judul<<endl;
-           cout<<"Kode      = "<<buku[i].kode<<endl;
-           cout<<"Penerbit  = "<<buku[i].penerbit<<endl;
-           cout<<"Pengarang = "<<buku[i].pengarang<<endl;
-           cout<<"Stok = "<<buku[i].stok<<endl;
-           cout<<endl;
-           cout<<"Masukkan Jumlah Buku yang akan anda Pinjam : ";
-           cin>>jml_buku_pinjam;
-           cout<<endl;
-           while(buku[i].stok < jml_buku_pinjam){
-             cout<<"Maaf stok buku tidak cukup, silahkan masukan kembali jumlah buku yang akan dipinjam."<<endl;
-             getch();
-             cout<<endl;
-             cout<<"Masukkan Jumlah Buku yang akan anda Pinjam : ";
-             cin>>jml_buku_pinjam;
-             cout<<endl;
-           }
-           ptrPeminjaman += 1;
-           cout<<"Masukkan Nama Anda : ";
-           fflush(stdin); cin.get(peminjaman[ptrPeminjaman].nama_peminjam, 61);
-           cout<<endl;
-           cout<<"Masukkan Alamat Anda : ";
-           fflush(stdin); cin.get(peminjaman[ptrPeminjaman].alamat_peminjam, 81);
-           peminjaman[ptrPeminjaman].kode = ptrPeminjaman;
-           peminjaman[ptrPeminjaman].kode_buku = buku[i].kode;
-           strcpy(peminjaman[ptrPeminjaman].judul_buku,buku[i].judul);
-           peminjaman[ptrPeminjaman].tgl_pinjam.tanggal = ltm->tm_mday;
-           peminjaman[ptrPeminjaman].tgl_pinjam.bulan = 1 + ltm->tm_mon;
-           peminjaman[ptrPeminjaman].tgl_pinjam.tahun = 1900 + ltm->tm_year;
-           peminjaman[ptrPeminjaman].jumlah_pinjam=jml_buku_pinjam; 
-           buku[i].stok -= jml_buku_pinjam;
-           cout<<endl;
-           cout<<"Selamat, Buku berhasil dipinjam."<<endl;
-       }
-  
+    int kodeCari, indeks_buku;
+    int jml_buku_pinjam;
+    time_t now = time(0);
+    tm *ltm = localtime(&now);
+
+    do {
+        cout<<"Masukkan kode buku yang akan anda pinjam = ";
+        cin>>kodeCari;
+
+        // @var indeks_buku akan menampung posisi indeks buku dalam array
+        indeks_buku = cariBukuByKode(kodeCari);
+        if (indeks_buku == -1) {
+            cout<<"Buku yang diminta tidak ditemukan!"<<endl;
+        }
+    } while (indeks_buku == -1);
+
+    if (buku[indeks_buku].stok == 0) {
+        cout<<endl;
+        cout<<"Maaf stok buku yang akan anda pinjam telah habis."<<endl;
     } else {
-       cout<<"Kode tidak ditemukan";
-    }       
-   
-   getch();
+        system("cls");
+        cout<<"Detail Buku yang akan dipinjam"<<endl;
+        cout<<"==================================="<<endl;   
+        cout<<"Judul     = "<<buku[indeks_buku].judul<<endl;
+        cout<<"Kode      = "<<buku[indeks_buku].kode<<endl;
+        cout<<"Penerbit  = "<<buku[indeks_buku].penerbit<<endl;
+        cout<<"Pengarang = "<<buku[indeks_buku].pengarang<<endl;
+        cout<<"Stok = "<<buku[indeks_buku].stok<<endl;
+        cout<<endl;
+        cout<<"Masukkan Jumlah Buku yang akan anda Pinjam : ";
+        cin>>jml_buku_pinjam;
+        cout<<endl;
+        while(buku[indeks_buku].stok < jml_buku_pinjam){
+            cout<<"Maaf stok buku tidak cukup, silahkan masukan kembali jumlah buku yang akan dipinjam."<<endl;
+            getch();
+
+            cout<<endl;
+            cout<<"Masukkan Jumlah Buku yang akan anda Pinjam : ";
+            cin>>jml_buku_pinjam;
+            cout<<endl;
+        }
+
+        ptrPeminjaman += 1;
+
+        cout<<"Masukkan Nama Anda : ";
+        fflush(stdin); cin.get(peminjaman[ptrPeminjaman].nama_peminjam, 60);
+
+        cout<<endl;
+        cout<<"Masukkan Alamat Anda : ";
+        fflush(stdin); cin.get(peminjaman[ptrPeminjaman].alamat_peminjam, 80);
+
+        peminjaman[ptrPeminjaman].kode = ptrPeminjaman;
+        peminjaman[ptrPeminjaman].kode_buku = buku[indeks_buku].kode;
+        strcpy(peminjaman[ptrPeminjaman].judul_buku,buku[indeks_buku].judul);
+        peminjaman[ptrPeminjaman].tgl_pinjam.tanggal = ltm->tm_mday;
+        peminjaman[ptrPeminjaman].tgl_pinjam.bulan = 1 + ltm->tm_mon;
+        peminjaman[ptrPeminjaman].tgl_pinjam.tahun = 1900 + ltm->tm_year;
+        peminjaman[ptrPeminjaman].jumlah_pinjam=jml_buku_pinjam; 
+        buku[indeks_buku].stok -= jml_buku_pinjam;
+        cout<<endl;
+        cout<<"Selamat, Buku berhasil dipinjam."<<endl;
+    }
+
+    getch();
 }
 void menu_peminjaman()
 {

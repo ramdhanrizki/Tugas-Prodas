@@ -536,7 +536,7 @@ void pengembalian_buku()
          i++;              
    }
    if(ketemu){
-     system("cls");r
+     system("cls");
      cout<<"Data Peminjaman"<<endl; 
      cout<<"========================"<<endl; 
      cout<<"Kode Peminjam : "<<kodePinjam<<endl;
